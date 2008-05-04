@@ -9,11 +9,11 @@ MooseX::Mutate - A convenient way to make many Moose immutable (or mutable) in o
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -44,6 +44,11 @@ our $VERSION = '0.01';
 
     # You can also use MooseX::Mutate to make something mutable again:
     MooseX::Mutate->make_mutable("My::Moose::Hierarchy::Epsilon::+")
+
+=head1 WARNING - Use MooseX::MakeImmutable instead
+
+I'm changing the name to L<MooseX::MakeImmutable>, as I think MooseX::Mutate is a pretty juicy name AND doesn't really describe this
+package accurately. This distribution will be removed from CPAN soon.
 
 =head1 DESCRIPTION
 
@@ -97,6 +102,7 @@ The returned object uses L<Module::Pluggable> to scan the specified namespace(s)
 
 use MooseX::Mutate::Finder;
 use Scalar::Util qw/blessed/;
+use Carp;
 
 sub finder {
     my $class = shift;
@@ -118,10 +124,26 @@ sub _given_finder {
     return $finder;
 }
 
+carp <<_END_;
+
+**********************************************************************
+* MooseX::Mutate is deprecated... use MooseX::MakeImmutable instead! *
+**********************************************************************
+
+_END_
+
 sub make_immutable {
     my $class = shift;
     my $manifest = shift;
     my %given = @_;
+
+    carp <<_END_;
+
+**********************************************************************
+* MooseX::Mutate is deprecated... use MooseX::MakeImmutable instead! *
+**********************************************************************
+
+_END_
 
     my $finder = $class->_given_finder(\%given, manifest => $manifest);
 
@@ -132,6 +154,14 @@ sub make_mutable {
     my $class = shift;
     my $manifest = shift;
     my %given = @_;
+
+    carp <<_END_;
+
+**********************************************************************
+* MooseX::Mutate is deprecated... use MooseX::MakeImmutable instead! *
+**********************************************************************
+
+_END_
 
     my $finder = $class->_given_finder(\%given, manifest => $manifest);
 
